@@ -1,10 +1,16 @@
+import { Application, Router } from "https://deno.land/x/oak/mod.ts";
 
-import { Application } from "https://deno.land/x/oak/mod.ts";
-
-const app = new Application();
-
-app.use((ctx) => {
-  ctx.response.body = "Hello World!";
+const router = new Router();
+router.get("/", (ctx) => {
+  ctx.response.body = "Hello world aja doang!";
 });
 
-await app.listen({port:process.env.PORT})
+const app = new Application();
+app.use(router.routes());
+app.use(router.allowedMethods());
+
+app.addEventListener(
+  "listen",
+  (e) => console.log("Listening on http://localhost:8080"),
+);
+await app.listen({ port: 8080 });
